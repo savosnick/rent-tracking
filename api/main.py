@@ -22,13 +22,13 @@ app = Flask(__name__)
 
 @app.route("/new-results")
 def new_results():
-    word = request.args
+    parameters = request.args
     # querystring = {"location":"folsom, ca","status_type":"ForRent","home_type":"Houses"}
     headers = {
     'x-rapidapi-host': "zillow-com1.p.rapidapi.com",
     'x-rapidapi-key': RAPID_API_KEY
     }
-    response = requests.request("GET", PROPERTY_EXTENDED_URL, headers=headers, params=word)
+    response = requests.request("GET", PROPERTY_EXTENDED_URL, headers=headers, params=parameters)
 
     data = response.json()
     return data
