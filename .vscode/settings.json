@@ -7,5 +7,15 @@
     "editor.codeActionsOnSave": {
         "source.fixAll.eslint": true
     },
-    "python.pythonPath": "api/.venv/Scripts/python"
+    "python.pythonPath": "api/.venv/Scripts/python",
+    "python.linting.pycodestyleEnabled": true,
+    "python.linting.pycodestyleArgs": [
+        "--max-line-length=88"
+    ],
+    "python.linting.pylintEnabled": true,
+    "python.formatting.provider": "black",
+    "python.linting.pylintArgs": ["--disable=C0111"],
+    "[python]":{
+        "editor.formatOnSave": true
+    }    
 }
