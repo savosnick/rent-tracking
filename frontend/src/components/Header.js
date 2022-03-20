@@ -3,12 +3,12 @@ import { Navbar, Container, Nav } from "react-bootstrap";
 // import Logo from "../images/logo.svg";
 
 const navbarStyle = {
-  backgroundColor: "#eeeeee",
+  backgroundColor: "blue",
 };
 
 const Header = () => {
   return (
-    <Navbar bg="primary" variant="dark">
+    <Navbar style={navbarStyle} variant="dark">
       <Container fluid>
         <Navbar.Brand href="#home">RENT TRACKING WEBSITE</Navbar.Brand>
         <Nav className="me-auto">

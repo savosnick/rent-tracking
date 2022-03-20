@@ -2,6 +2,7 @@ import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import axios from "axios";
 import Header from "./components/Header";
+import Search from "./components/Search";
 import { useState, useEffect } from "react";
 import { Container } from "react-bootstrap";
 
@@ -25,9 +26,11 @@ const App = () => {
 
   return (
     <div>
-      <Container fluid>
-        <Header />
-        Rent tracking website
+      {/* <Container fluid> */}
+      <Header />
+      {/* </Container> */}
+      <Container className="mt-2" fluid>
+        <Search />
       </Container>
     </div>
   );
