@@ -3,8 +3,9 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import axios from "axios";
 import Header from "./components/Header";
 import Search from "./components/Search";
+import HouseCard from "./components/HouseCard";
 import { useState, useEffect } from "react";
-import { Container } from "react-bootstrap";
+import { Container, Row, Col } from "react-bootstrap";
 
 const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5050";
 
@@ -30,13 +31,18 @@ const App = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const res = await axios.get(
-      `${API_URL}/new-results?location=${city}%2C%20${state}&${searchString}`
-    );
-    setNewHouses(res.data);
-    console.log(newHouses);
-    console.log(Object.keys(newHouses).length);
     try {
+      const res = await axios.get(
+        `${API_URL}/new-results?location=${city}%2C%20${state}&${searchString}`
+      );
+      setNewHouses(Object.values(res.data));
+      // for (const [key, value] of Object.entries(res.data)) {
+      //   console.log(value);
+      //   setNewHouses([res.data[key], ...newHouses]);
+      // }
+      console.log(newHouses);
+      console.log(newHouses.length);
+      // // console.log(Object.keys(newHouses).length);
     } catch (error) {
       console.log(error);
     }
@@ -58,7 +64,18 @@ const App = () => {
         />
       </Container>
       <Container className="mt-2" fluid>
-        {JSON.stringify(newHouses, null, 2)}
+        {newHouses.length ? (
+          <Row xs={1} md={3} lg={5}>
+            {newHouses.map((house, i) => (
+              <Col key={i} className="pb-3">
+                <HouseCard house={house} />
+              </Col>
+            ))}
+          </Row>
+        ) : (
+          "EXPLANATION OF WEBSITE TO BE INSERTED HERE LATER"
+        )}
+        {/* {JSON.stringify(newHouses, null, 2)} */}
       </Container>
     </div>
   );
