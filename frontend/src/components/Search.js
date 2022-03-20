@@ -1,38 +1,37 @@
 import React from "react";
-import {
-  Form,
-  Button,
-  Row,
-  Col,
-  InputGroup,
-  FormControl,
-} from "react-bootstrap";
+import { Form, Button, Row, Col } from "react-bootstrap";
 
-const Search = () => {
+const Search = ({
+  city,
+  setCity,
+  state,
+  setState,
+  searchString,
+  handleSubmit,
+}) => {
   return (
-    <Form>
+    <Form onSubmit={handleSubmit}>
       <Row className="align-items-center">
         <Col xs="auto">
-          <Form.Label htmlFor="inlineFormInput" visuallyHidden>
-            Name
-          </Form.Label>
           <Form.Control
-            className="mb-2"
+            type="text"
+            value={city}
+            onChange={(e) => setCity(e.target.value)}
             id="inlineFormInput"
             placeholder="City"
           />
         </Col>
         <Col xs="auto">
-          <Form.Label htmlFor="inlineFormInputGroup" visuallyHidden>
-            Username
-          </Form.Label>
-          <InputGroup className="mb-2">
-            <FormControl id="inlineFormInputGroup" placeholder="State" />
-          </InputGroup>
+          <Form.Select aria-label="Default select example">
+            <option>State</option>
+            <option value="1">CA</option>
+            <option value="2">TX</option>
+            <option value="3">NY</option>
+          </Form.Select>
         </Col>
 
         <Col xs="auto">
-          <Button type="submit" className="mb-2">
+          <Button variant="primary" type="submit">
             Search
           </Button>
         </Col>

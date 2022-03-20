@@ -4,8 +4,8 @@ import os
 from dotenv import load_dotenv
 import requests
 from flask import Flask, request
+from flask_cors import CORS
 
-# from flask_cors import CORS
 # from mongo_client import mongo_client
 
 load_dotenv(dotenv_path="./.env.local")
@@ -20,6 +20,7 @@ if not RAPID_API_KEY:
     )
 
 app = Flask(__name__)
+CORS(app)
 
 
 @app.route("/new-results")
@@ -38,7 +39,7 @@ def new_results():
     houses_for_rent = {}
     for house in data["props"]:
         houses_for_rent[house["zpid"]] = {
-            "zpid": int(house["zpid"]),
+            "zpid": house["zpid"],
             "address": house["address"],
             "image": house["imgSrc"],
             "longitude": house["longitude"],
