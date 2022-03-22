@@ -15,6 +15,7 @@ const App = () => {
   // const [houses, setHouses] = useState({ test: "test" });
   // const [loading, setLoading] = useState(true);
   const [newHouses, setNewHouses] = useState([]);
+  const [trackedHouses, setTrackedHouses] = useState([]);
   // const getSavedHouses = async () => {
   //   try {
   //     const res = await axios.get(`${API_URL}/houses`);
@@ -48,6 +49,21 @@ const App = () => {
     }
   };
 
+  const trackNewHouse = async (zpid) => {
+    const houseToBeTracked = newHouses.find((house) => house.zpid === zpid);
+    houseToBeTracked.tracked = true;
+    try {
+      // const res = await axios.post(``)
+      setTrackedHouses(
+        trackedHouses.map((house) =>
+          house.zpid === zpid ? { ...house, saved: true } : house
+        )
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div>
       {/* <Container fluid> */}
@@ -68,7 +84,7 @@ const App = () => {
           <Row xs={1} md={3} lg={5}>
             {newHouses.map((house, i) => (
               <Col key={i} className="pb-3">
-                <HouseCard house={house} />
+                <HouseCard house={house} trackHouse={trackNewHouse} />
               </Col>
             ))}
           </Row>
