@@ -46,6 +46,7 @@ def new_results():
             "latitude": house["latitude"],
             "price": house["price"],
             "size": house["livingArea"],
+            "has_image": house["hasImage"],
         }
     return houses_for_rent
 

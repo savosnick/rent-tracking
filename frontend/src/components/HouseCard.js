@@ -1,10 +1,19 @@
 import React from "react";
 import { Card, Button } from "react-bootstrap";
+import noImage from "../images/noImage.png";
+
+const houseImage = (house) => {
+  if (house.has_image === true) {
+    return house.image;
+  } else {
+    return noImage;
+  }
+};
 
 const HouseCard = ({ house, trackHouse }) => {
   return (
     <Card style={{ width: "18rem" }}>
-      <Card.Img variant="top" src={house.image}></Card.Img>
+      <Card.Img variant="top" src={houseImage(house)}></Card.Img>
       <Card.Body>
         <Card.Title>{house.address}</Card.Title>
         <Card.Text>
