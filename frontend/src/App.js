@@ -4,6 +4,7 @@ import axios from "axios";
 import Header from "./components/Header";
 import Search from "./components/Search";
 import HouseCard from "./components/HouseCard";
+import Sort from "./components/Sort";
 import { useState, useEffect } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 
@@ -41,7 +42,7 @@ const App = () => {
       //   console.log(value);
       //   setNewHouses([res.data[key], ...newHouses]);
       // }
-      console.log(newHouses);
+
       console.log(newHouses.length);
       // // console.log(Object.keys(newHouses).length);
     } catch (error) {
@@ -75,7 +76,9 @@ const App = () => {
           searchString={searchString}
           handleSubmit={handleSubmit}
         />
+        <Sort setNewHouses={setNewHouses} newHouses={newHouses} />
       </Container>
+
       <Container className="mt-2" fluid>
         {newHouses.length ? (
           <Row xs={1} md={3} lg={5}>
