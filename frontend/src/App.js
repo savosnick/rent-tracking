@@ -5,6 +5,7 @@ import Header from "./components/Header";
 import Search from "./components/Search";
 import HouseCard from "./components/HouseCard";
 import Sort from "./components/Sort";
+import Welcome from "./components/Welcome";
 import { useState, useEffect } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 
@@ -97,7 +98,7 @@ const App = () => {
             ))}
           </Row>
         ) : (
-          "EXPLANATION OF WEBSITE TO BE INSERTED HERE LATER"
+          <Welcome />
         )}
         {/* {JSON.stringify(newHouses, null, 2)} */}
       </Container>

@@ -1,6 +1,6 @@
 import React from "react";
 import { Card, Button } from "react-bootstrap";
-import noImage from "../images/noImage.png";
+import noImage from "../images/animalInBed.JPG";
 
 const houseImage = (house) => {
   if (house.has_image === true) {
