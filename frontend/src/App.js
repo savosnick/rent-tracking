@@ -54,11 +54,6 @@ const App = () => {
     houseToBeTracked.tracked = true;
     try {
       // const res = await axios.post(``)
-
-      trackedHouses.map((house) =>
-        house.zpid === zpid ? { ...house, tracked: true } : house
-      );
-
       setTrackedHouses((trackedHouses) => [...trackedHouses, houseToBeTracked]);
       console.log(trackedHouses);
     } catch (error) {
