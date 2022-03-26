@@ -12,7 +12,7 @@ const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5050";
 
 const App = () => {
   const [city, setCity] = useState("");
-  const [state, setState] = useState("");
+  const [state, setState] = useState("State");
   // const [houses, setHouses] = useState({ test: "test" });
   // const [loading, setLoading] = useState(true);
   const [newHouses, setNewHouses] = useState([]);
@@ -44,6 +44,8 @@ const App = () => {
       // }
 
       console.log(newHouses.length);
+      setCity("");
+      setState("State");
       // // console.log(Object.keys(newHouses).length);
     } catch (error) {
       console.log(error);
@@ -76,8 +78,14 @@ const App = () => {
           searchString={searchString}
           handleSubmit={handleSubmit}
         />
-        <Sort setNewHouses={setNewHouses} newHouses={newHouses} />
       </Container>
+      {newHouses.length ? (
+        <Container className="mt-2" fluid>
+          <Sort setNewHouses={setNewHouses} newHouses={newHouses} />
+        </Container>
+      ) : (
+        ""
+      )}
 
       <Container className="mt-2" fluid>
         {newHouses.length ? (

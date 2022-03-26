@@ -24,13 +24,14 @@ const Search = ({
         <Col xs="auto">
           <Form.Select
             aria-label="Default select example"
+            defaultValue={"what"}
             onChange={(e) => {
               console.log("e.target.value", e.target.value);
               setState(e.target.value);
             }}
           >
             <option hidden value>
-              State
+              {state}
             </option>
             <option value="CA">CA</option>
             <option value="TX">TX</option>

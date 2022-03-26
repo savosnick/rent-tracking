@@ -1,5 +1,5 @@
 import React from "react";
-import { Form, Button } from "react-bootstrap";
+import { Form, Button, Col, Row } from "react-bootstrap";
 
 const sortByPrice = (setNewHouses, newHouses) => {
   setNewHouses(
@@ -18,21 +18,26 @@ const sortBySqft = (setNewHouses, newHouses) => {
 const Sort = ({ setNewHouses, newHouses }) => {
   return (
     <Form>
-      <Button
-        type="submit"
-        active
-        onClick={() => sortByPrice(setNewHouses, newHouses)}
-      >
-        Sort by price
-      </Button>
-      <Button
-        type="submit"
-        active
-        className="ml-2"
-        onClick={() => sortBySqft(setNewHouses, newHouses)}
-      >
-        Sort by area
-      </Button>
+      <Row>
+        <Col xs="auto">
+          <Button
+            variant="primary"
+            active
+            onClick={() => sortByPrice(setNewHouses, newHouses)}
+          >
+            Sort by price
+          </Button>
+        </Col>
+        <Col xs="auto">
+          <Button
+            variant="primary"
+            active
+            onClick={() => sortBySqft(setNewHouses, newHouses)}
+          >
+            Sort by area
+          </Button>
+        </Col>
+      </Row>
     </Form>
   );
 };
