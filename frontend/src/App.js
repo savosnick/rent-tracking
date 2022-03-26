@@ -11,7 +11,7 @@ const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5050";
 
 const App = () => {
   const [city, setCity] = useState("");
-  const [state, setState] = useState("CA");
+  const [state, setState] = useState("");
   // const [houses, setHouses] = useState({ test: "test" });
   // const [loading, setLoading] = useState(true);
   const [newHouses, setNewHouses] = useState([]);
@@ -54,11 +54,13 @@ const App = () => {
     houseToBeTracked.tracked = true;
     try {
       // const res = await axios.post(``)
-      setTrackedHouses(
-        trackedHouses.map((house) =>
-          house.zpid === zpid ? { ...house, tracked: true } : house
-        )
+
+      trackedHouses.map((house) =>
+        house.zpid === zpid ? { ...house, tracked: true } : house
       );
+
+      setTrackedHouses((trackedHouses) => [...trackedHouses, houseToBeTracked]);
+      console.log(trackedHouses);
     } catch (error) {
       console.log(error);
     }

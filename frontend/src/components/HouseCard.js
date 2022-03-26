@@ -1,7 +1,6 @@
 import React from "react";
 import { Card, Button } from "react-bootstrap";
 import noImage from "../images/noImage.png";
-import CardGroup from "react-bootstrap/CardGroup";
 
 const houseImage = (house) => {
   if (house.has_image === true) {
@@ -18,12 +17,8 @@ const HouseCard = ({ house, trackHouse }) => {
         variant="top"
         src={houseImage(house)}
         style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          maxWidth: "286px",
           maxHeight: "214px",
-          objectFit: "contain",
+          objectFit: "scale-down",
         }}
       ></Card.Img>
       <Card.Body>

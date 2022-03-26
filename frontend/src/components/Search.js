@@ -22,11 +22,19 @@ const Search = ({
           />
         </Col>
         <Col xs="auto">
-          <Form.Select aria-label="Default select example">
-            <option>State</option>
-            <option value="1">CA</option>
-            <option value="2">TX</option>
-            <option value="3">NY</option>
+          <Form.Select
+            aria-label="Default select example"
+            onChange={(e) => {
+              console.log("e.target.value", e.target.value);
+              setState(e.target.value);
+            }}
+          >
+            <option hidden value>
+              State
+            </option>
+            <option value="CA">CA</option>
+            <option value="TX">TX</option>
+            <option value="NY">NY</option>
           </Form.Select>
         </Col>
 
