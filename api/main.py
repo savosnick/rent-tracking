@@ -1,12 +1,14 @@
 # from crypt import methods
-# from dataclasses import dataclass
 import os
 from dotenv import load_dotenv
 import requests
-from flask import Flask, request
+from flask import Flask, request, jsonify
 from flask_cors import CORS
+from mongo_client import mongo_client
 
-# from mongo_client import mongo_client
+# from dataclasses import dataclass
+tracked_houses = mongo_client.rentals
+houses_collection = tracked_houses.houses
 
 load_dotenv(dotenv_path="./.env.local")
 
@@ -49,6 +51,25 @@ def new_results():
             "has_image": house["hasImage"],
         }
     return houses_for_rent
+
+
+@app.route("/tracked", methods=["GET", "POST"])
+def tracked():
+    if request.method == "GET":
+        # read images from the database
+        houses = houses_collection.find({})
+        # return "This is working"
+        # return str(houses_collection.count_documents({}) + 8)
+        return jsonify([house for house in houses])
+
+    if request.method == "POST":
+        # save image in the database
+        house = request.get_json()
+        # to avoid issue with MongoDB auto creating of _id not being jsonifiable
+        house["_id"] = house.get("zpid")
+        result = houses_collection.insert_one(house)
+        inserted_id = result.inserted_id
+        return {"inserted_id": inserted_id}
 
 
 if __name__ == "__main__":

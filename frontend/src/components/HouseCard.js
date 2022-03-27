@@ -10,7 +10,11 @@ const houseImage = (house) => {
   }
 };
 
-const HouseCard = ({ house, trackHouse }) => {
+// const checkIfTracked = (zpidCheck, trackedHouses) => {
+//   return trackedHouses.some((el) => el.zpid === zpidCheck);
+// };
+
+const HouseCard = ({ house, trackHouse, trackedHouses }) => {
   return (
     <Card style={{ width: "18rem" }}>
       <Card.Img
@@ -27,7 +31,7 @@ const HouseCard = ({ house, trackHouse }) => {
           {" "}
           Price: ${house.price} Size: {house.size} SQFT
         </Card.Text>
-        {!house.tracked && (
+        {!house.tracked && !trackedHouses.some((el) => el.zpid === house.zpid) && (
           <Button
             variant="primary"
             className="ml-2"
@@ -37,8 +41,13 @@ const HouseCard = ({ house, trackHouse }) => {
           </Button>
         )}
         {house.tracked && (
-          <Button variant="secondary" className="ml-2">
-            Tracked
+          <Button variant="secondary" className="ml-2" disabled>
+            Tracking to begin
+          </Button>
+        )}
+        {!house.tracked && trackedHouses.some((el) => el.zpid === house.zpid) && (
+          <Button variant="secondary" className="ml-2" disabled>
+            Already Tracked
           </Button>
         )}
         {/* <Button variant="secondary">Delete</Button> */}

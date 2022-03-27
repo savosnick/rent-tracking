@@ -18,17 +18,22 @@ const App = () => {
   // const [loading, setLoading] = useState(true);
   const [newHouses, setNewHouses] = useState([]);
   const [trackedHouses, setTrackedHouses] = useState([]);
-  // const getSavedHouses = async () => {
-  //   try {
-  //     const res = await axios.get(`${API_URL}/houses`);
-  //     setHouses(res.data || []);
-  //     setLoading(false);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
 
-  // useEffect(() => getSavedHouses(), []);
+  const getSavedHouses = async () => {
+    try {
+      const res = await axios.get(`${API_URL}/tracked`);
+      setTrackedHouses(res.data || []);
+      console.log(trackedHouses);
+      // setLoading(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getSavedHouses();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const searchString = "status_type=ForRent&home_type=Houses";
 
@@ -57,11 +62,11 @@ const App = () => {
     const houseToBeTracked = newHouses.find((house) => house.zpid === zpid);
     houseToBeTracked.tracked = true;
     try {
-      // const res = await axios.post(``)
+      await axios.post(`${API_URL}/tracked`, houseToBeTracked);
       setTrackedHouses((trackedHouses) => [...trackedHouses, houseToBeTracked]);
       console.log(trackedHouses);
     } catch (error) {
-      console.log(error);
+      console.log("House is already tracked");
     }
   };
 
@@ -93,7 +98,11 @@ const App = () => {
           <Row xs={1} md={3} lg={5}>
             {newHouses.map((house, i) => (
               <Col key={i} className="pb-3">
-                <HouseCard house={house} trackHouse={trackNewHouse} />
+                <HouseCard
+                  house={house}
+                  trackHouse={trackNewHouse}
+                  trackedHouses={trackedHouses}
+                />
               </Col>
             ))}
           </Row>
