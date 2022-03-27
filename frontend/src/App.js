@@ -19,7 +19,7 @@ const App = () => {
   const [newHouses, setNewHouses] = useState([]);
   const [trackedHouses, setTrackedHouses] = useState([]);
 
-  const getSavedHouses = async () => {
+  const getTrackedHouses = async () => {
     try {
       const res = await axios.get(`${API_URL}/tracked`);
       setTrackedHouses(res.data || []);
@@ -31,7 +31,7 @@ const App = () => {
   };
 
   useEffect(() => {
-    getSavedHouses();
+    getTrackedHouses();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
