@@ -24,7 +24,6 @@ const Search = ({
         <Col xs="auto">
           <Form.Select
             aria-label="Default select example"
-            defaultValue={"what"}
             onChange={(e) => {
               console.log("e.target.value", e.target.value);
               setState(e.target.value);

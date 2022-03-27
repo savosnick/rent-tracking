@@ -34,7 +34,7 @@ const Sort = ({ setNewHouses, newHouses }) => {
             active
             onClick={() => sortBySqft(setNewHouses, newHouses)}
           >
-            Sort by area
+            Sort by size
           </Button>
         </Col>
       </Row>
