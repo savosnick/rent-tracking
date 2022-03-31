@@ -92,7 +92,6 @@ const App = () => {
       ) : (
         ""
       )}
-
       <Container className="mt-2" fluid>
         {newHouses.length ? (
           <Row xs={1} md={3} lg={5}>
