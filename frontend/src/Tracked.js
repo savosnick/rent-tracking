@@ -1,6 +1,6 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Navbar, Container, Nav, Row, Col } from "react-bootstrap";
+import { Navbar, Container, Nav, Row, Col, Card } from "react-bootstrap";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import Header from "./components/Header";
@@ -39,7 +39,10 @@ const Tracked = () => {
           <Row xs={1} md={3} lg={5}>
             {trackedHouses.map((house, i) => (
               <Col key={i} className="pb-3">
-                {house.zpid}
+                <Card>
+                  <Card.Title>Tracked house #{i + 1}</Card.Title>
+                  <Card.Body>{house.zpid}</Card.Body>
+                </Card>
               </Col>
             ))}
           </Row>
