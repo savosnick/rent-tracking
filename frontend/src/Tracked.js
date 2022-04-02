@@ -4,6 +4,7 @@ import { Navbar, Container, Nav, Row, Col, Card } from "react-bootstrap";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import Header from "./components/Header";
+import { Loader } from "@googlemaps/js-api-loader";
 
 // import Logo from "../images/logo.svg";
 
@@ -41,7 +42,9 @@ const Tracked = () => {
               <Col key={i} className="pb-3">
                 <Card>
                   <Card.Title>Tracked house #{i + 1}</Card.Title>
-                  <Card.Body>{house.zpid}</Card.Body>
+                  <Card.Body>
+                    latitude: {house.latitude} longitude: {house.longitude}
+                  </Card.Body>
                 </Card>
               </Col>
             ))}
