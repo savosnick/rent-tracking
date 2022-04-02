@@ -1,21 +1,19 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Navbar, Container, Nav, Row, Col, Card } from "react-bootstrap";
+import { Container, Row, Col, Card } from "react-bootstrap";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import Header from "./components/Header";
-import { Loader } from "@googlemaps/js-api-loader";
+import MapContainer from "./components/MapContainer";
 
 // import Logo from "../images/logo.svg";
-
-const navbarStyle = {
-  backgroundColor: "blue",
-};
 
 const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5050";
 
 const Tracked = () => {
   const [trackedHouses, setTrackedHouses] = useState([]);
+
+  //   const [map, setMap] = useState("");
   const getTrackedHouses = async () => {
     try {
       const res = await axios.get(`${API_URL}/tracked`);
@@ -52,6 +50,13 @@ const Tracked = () => {
         ) : (
           "No Houses are stored"
         )}
+      </Container>
+      <Container className="justify-center" fluid>
+        <Card bg="primary" border="Info" style={{ maxHeight: "50%" }}>
+          <Card.Body>
+            <MapContainer />
+          </Card.Body>
+        </Card>
       </Container>
     </div>
   );
