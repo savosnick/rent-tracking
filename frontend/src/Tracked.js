@@ -27,6 +27,7 @@ const Tracked = () => {
 
   useEffect(() => {
     getTrackedHouses();
+    console.log(trackedHouses);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -39,7 +40,7 @@ const Tracked = () => {
             {trackedHouses.map((house, i) => (
               <Col key={i} className="pb-3">
                 <Card>
-                  <Card.Title>Tracked house #{i + 1}</Card.Title>
+                  {/* <Card.Title>Tracked house #{i + 1}</Card.Title> */}
                   <Card.Body>
                     latitude: {house.latitude} longitude: {house.longitude}
                   </Card.Body>
@@ -51,10 +52,14 @@ const Tracked = () => {
           "No Houses are stored"
         )}
       </Container>
-      <Container className="justify-center" fluid>
-        <Card bg="primary" border="Info" style={{ maxHeight: "50%" }}>
+      <Container className="mt-3">
+        <Card bg="primary" border="Info" style={{ width: "12rm" }}>
           <Card.Body>
-            <MapContainer />
+            {trackedHouses.length ? (
+              <MapContainer trackedHouses={trackedHouses} />
+            ) : (
+              "Loading"
+            )}
           </Card.Body>
         </Card>
       </Container>
