@@ -1,10 +1,10 @@
 import React from "react";
 import { Card, Button } from "react-bootstrap";
-import startPage from "../images/animalInBed.JPG";
+import startPage from "../images/welcomePicture.png";
 const Welcome = () => (
-  <Card style={{ width: "50%" }}>
+  <Card border="dark" style={{ width: "50%" }}>
     <Card.Body>
-      <Card.Title>Rent Tracking</Card.Title>
+      <Card.Title bg="dark">Rent Tracking</Card.Title>
       <Card.Text>
         This Website allows you to search for open rentals on Zillow in your
         neighborhood and track houses of interest. These houses can then be seen
@@ -17,12 +17,13 @@ const Welcome = () => (
     <Card.Img
       variant="bottom"
       src={startPage}
+      className="mb-4"
       style={{
         maxHeight: "400px",
         objectFit: "scale-down",
       }}
     ></Card.Img>
-    <Card.Footer>Animal out of control</Card.Footer>
+    <Card.Footer>Example view in the 'Tracked Houses' tab</Card.Footer>
   </Card>
 );
 

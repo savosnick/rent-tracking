@@ -7,6 +7,7 @@ import {
 } from "@react-google-maps/api";
 import { Container, Row, Col, Card } from "react-bootstrap";
 import { useState } from "react";
+import homeIcon from "../images/homeIcon.png";
 
 const API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API;
 
@@ -126,6 +127,7 @@ const MapContainer = ({ trackedHouses, setShowCanvas, setTarget }) => {
         <GoogleMap
           mapContainerStyle={mapStyles}
           zoom={zoomLevel(locations)}
+          mapTypeId="hybrid"
           center={defaultCenter}
         >
           {locations.map((item) => {
@@ -133,6 +135,7 @@ const MapContainer = ({ trackedHouses, setShowCanvas, setTarget }) => {
               <Marker
                 key={item.name}
                 position={item.location}
+                icon="http://maps.google.com/mapfiles/kml/pal3/icon56.png"
                 onClick={() => {
                   onSelect(item);
                   setShowCanvas(true);
