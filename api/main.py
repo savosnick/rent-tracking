@@ -49,6 +49,8 @@ def new_results():
             "price": house["price"],
             "size": house["livingArea"],
             "has_image": house["hasImage"],
+            "bedrooms": house["bedrooms"],
+            "bathrooms": house["bathrooms"],
         }
     return houses_for_rent
 

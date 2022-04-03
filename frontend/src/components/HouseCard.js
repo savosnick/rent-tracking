@@ -29,7 +29,12 @@ const HouseCard = ({ house, trackHouse, trackedHouses }) => {
         <Card.Title>{house.address}</Card.Title>
         <Card.Text>
           {" "}
-          Price: ${house.price} Size: {house.size} SQFT
+          <strong>Price:</strong> ${house.price} <strong>SF:</strong>{" "}
+          {house.size} <br></br>
+          <strong>BR: </strong>
+          {house.bedrooms}
+          <strong> BA: </strong>
+          {house.bathrooms}
         </Card.Text>
         {!house.tracked && !trackedHouses.some((el) => el.zpid === house.zpid) && (
           <Button

@@ -14,6 +14,7 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import Header from "./components/Header";
 import MapContainer from "./components/MapContainer";
+import HouseCard from "./components/HouseCard";
 
 // import Logo from "../images/logo.svg";
 
@@ -69,11 +70,15 @@ const Tracked = () => {
           </Card.Body>
         </Card>
       </Container>
-      <Offcanvas show={showCanvas} onHide={handleClose}>
+      <Offcanvas show={showCanvas} onHide={handleClose} backdrop={false}>
         <OffcanvasHeader closeButton>
-          <OffcanvasTitle>Canvas</OffcanvasTitle>
+          <OffcanvasTitle>Zpid: {target.name}</OffcanvasTitle>
         </OffcanvasHeader>
-        <OffcanvasBody>{target.name}</OffcanvasBody>
+        <OffcanvasBody>
+          <Card>
+            <Card.Body>{target.name}</Card.Body>
+          </Card>
+        </OffcanvasBody>
       </Offcanvas>
     </div>
   );

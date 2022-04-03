@@ -157,7 +157,7 @@ const MapContainer = ({ trackedHouses, setShowCanvas, setTarget }) => {
                     width="125px"
                     height="125px"
                   ></Card.Img>
-                  <Card.Footer>Zpid: {selected.name}</Card.Footer>
+                  {/* <Card.Footer>Zpid: {selected.name}</Card.Footer> */}
                 </Card>
               </div>
             </InfoWindow>
