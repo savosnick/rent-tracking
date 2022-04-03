@@ -1,17 +1,30 @@
 import React from "react";
-import { GoogleMap, LoadScript, Marker } from "@react-google-maps/api";
+import {
+  GoogleMap,
+  LoadScript,
+  Marker,
+  InfoWindow,
+} from "@react-google-maps/api";
 import { Container, Row, Col, Card } from "react-bootstrap";
+import { useState } from "react";
 
 const API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API;
 
-const MapContainer = ({ trackedHouses }) => {
+const MapContainer = ({ trackedHouses, setShowCanvas, setTarget }) => {
   const mapStyles = {
-    height: "60vh",
+    height: "80vh",
     width: "100%",
+  };
+
+  const [selected, setSelected] = useState({});
+
+  const onSelect = (item) => {
+    setSelected(item);
   };
 
   const locations = trackedHouses.map((house) => ({
     name: house.zpid,
+    img: house.image,
     location: { lat: house.latitude, lng: house.longitude },
   }));
 
@@ -26,7 +39,6 @@ const MapContainer = ({ trackedHouses }) => {
         max = locations[key]["location"]["lat"];
       }
     }
-    console.log((max + min) / 2);
     return (max + min) / 2;
   };
 
@@ -41,7 +53,6 @@ const MapContainer = ({ trackedHouses }) => {
         max = locations[key]["location"]["lng"];
       }
     }
-    console.log((max + min) / 2);
     return (max + min) / 2;
   };
 
@@ -80,7 +91,6 @@ const MapContainer = ({ trackedHouses }) => {
 
   const zoomLevel = (locations) => {
     const zoomRange = Math.max(lngRange(locations), latRange(locations));
-    console.log(zoomRange);
     if (zoomRange < 0.1) {
       return 12;
     } else if (zoomRange < 0.2) {
@@ -111,17 +121,47 @@ const MapContainer = ({ trackedHouses }) => {
   };
 
   return (
-    <LoadScript googleMapsApiKey={API_KEY}>
-      <GoogleMap
-        mapContainerStyle={mapStyles}
-        zoom={zoomLevel(locations)}
-        center={defaultCenter}
-      >
-        {locations.map((item) => {
-          return <Marker key={item.name} position={item.location} />;
-        })}
-      </GoogleMap>
-    </LoadScript>
+    <>
+      <LoadScript googleMapsApiKey={API_KEY}>
+        <GoogleMap
+          mapContainerStyle={mapStyles}
+          zoom={zoomLevel(locations)}
+          center={defaultCenter}
+        >
+          {locations.map((item) => {
+            return (
+              <Marker
+                key={item.name}
+                position={item.location}
+                onClick={() => {
+                  onSelect(item);
+                  setShowCanvas(true);
+                  setTarget(item);
+                }}
+              />
+            );
+          })}
+          {selected.location && (
+            <InfoWindow
+              position={selected.location}
+              clickable={true}
+              onCloseClick={() => setSelected({})}
+            >
+              <div>
+                <Card>
+                  <Card.Img
+                    src={selected.img}
+                    width="125px"
+                    height="125px"
+                  ></Card.Img>
+                  <Card.Footer>Zpid: {selected.name}</Card.Footer>
+                </Card>
+              </div>
+            </InfoWindow>
+          )}
+        </GoogleMap>
+      </LoadScript>
+    </>
   );
 };
 

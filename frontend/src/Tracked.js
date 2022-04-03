@@ -1,6 +1,15 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Container, Row, Col, Card } from "react-bootstrap";
+import {
+  Container,
+  Row,
+  Col,
+  Card,
+  Offcanvas,
+  OffcanvasHeader,
+  OffcanvasTitle,
+  OffcanvasBody,
+} from "react-bootstrap";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import Header from "./components/Header";
@@ -12,7 +21,8 @@ const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5050";
 
 const Tracked = () => {
   const [trackedHouses, setTrackedHouses] = useState([]);
-
+  const [showCanvas, setShowCanvas] = useState(false);
+  const [target, setTarget] = useState({});
   //   const [map, setMap] = useState("");
   const getTrackedHouses = async () => {
     try {
@@ -31,38 +41,40 @@ const Tracked = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const handleClose = () => setShowCanvas(false);
+
+  const getTargetInfo = async () => {
+    try {
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div>
       <Header />
-      <Container className="mt-2" fluid>
-        {trackedHouses.length ? (
-          <Row xs={1} md={3} lg={5}>
-            {trackedHouses.map((house, i) => (
-              <Col key={i} className="pb-3">
-                <Card>
-                  {/* <Card.Title>Tracked house #{i + 1}</Card.Title> */}
-                  <Card.Body>
-                    latitude: {house.latitude} longitude: {house.longitude}
-                  </Card.Body>
-                </Card>
-              </Col>
-            ))}
-          </Row>
-        ) : (
-          "No Houses are stored"
-        )}
-      </Container>
+
       <Container className="mt-3">
-        <Card bg="primary" border="primary" style={{ width: "12rm" }}>
+        <Card bg="primary" border="primary" style={{ width: "100%" }}>
           <Card.Body>
             {trackedHouses.length ? (
-              <MapContainer trackedHouses={trackedHouses} />
+              <MapContainer
+                trackedHouses={trackedHouses}
+                setShowCanvas={setShowCanvas}
+                setTarget={setTarget}
+              />
             ) : (
               "Loading"
             )}
           </Card.Body>
         </Card>
       </Container>
+      <Offcanvas show={showCanvas} onHide={handleClose}>
+        <OffcanvasHeader closeButton>
+          <OffcanvasTitle>Canvas</OffcanvasTitle>
+        </OffcanvasHeader>
+        <OffcanvasBody>{target.name}</OffcanvasBody>
+      </Offcanvas>
     </div>
   );
 };
