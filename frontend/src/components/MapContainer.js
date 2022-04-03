@@ -6,13 +6,8 @@ const API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API;
 
 const MapContainer = ({ trackedHouses }) => {
   const mapStyles = {
-    height: "60vh",
+    height: "100vh",
     width: "100%",
-  };
-
-  const defaultCenter = {
-    lat: 38.653854,
-    lng: -121.16676,
   };
 
   const locations = trackedHouses.map((house) => ({
@@ -20,11 +15,32 @@ const MapContainer = ({ trackedHouses }) => {
     location: { lat: house.latitude, lng: house.longitude },
   }));
 
-  console.log(trackedHouses);
+  const averageLat = (locations) => {
+    let total = 0;
+    for (const key in locations) {
+      total += locations[key]["location"]["lat"];
+    }
+    console.log(total / locations.length);
+    return total / locations.length;
+  };
+
+  const averageLong = (locations) => {
+    let total = 0;
+    for (const key in locations) {
+      total += locations[key]["location"]["lng"];
+    }
+    console.log(total / locations.length);
+    return total / locations.length;
+  };
+
+  const defaultCenter = {
+    lat: averageLat(locations),
+    lng: averageLong(locations),
+  };
 
   return (
     <LoadScript googleMapsApiKey={API_KEY}>
-      <GoogleMap mapContainerStyle={mapStyles} zoom={12} center={defaultCenter}>
+      <GoogleMap mapContainerStyle={mapStyles} zoom={11} center={defaultCenter}>
         {locations.map((item) => {
           return <Marker key={item.name} position={item.location} />;
         })}

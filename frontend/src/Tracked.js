@@ -53,7 +53,7 @@ const Tracked = () => {
         )}
       </Container>
       <Container className="mt-3">
-        <Card bg="primary" border="Info" style={{ width: "12rm" }}>
+        <Card bg="primary" border="primary" style={{ width: "12rm" }}>
           <Card.Body>
             {trackedHouses.length ? (
               <MapContainer trackedHouses={trackedHouses} />
