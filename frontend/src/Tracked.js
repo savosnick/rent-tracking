@@ -60,9 +60,9 @@ const Tracked = () => {
 
   const handleDeleteHouse = async (zpid) => {
     try {
-      const houseToBeDeleted = trackedHouses.find(
-        (house) => house.zpid === zpid
-      );
+      // const houseToBeDeleted = trackedHouses.find(
+      //   (house) => house.zpid === zpid
+      // );
       const res = await axios.delete(`${API_URL}/tracked/${zpid}`);
       if (res.data?.deleted_id) {
         setTrackedHouses(trackedHouses.filter((house) => house.zpid !== zpid));
@@ -119,7 +119,7 @@ const Tracked = () => {
                 <br></br>
                 <strong>Time to rent it out:</strong> {houseInfo.time_to_rent}
                 <br></br>
-                <strong>Price:</strong> {houseInfo.price}
+                <strong>Price:</strong> ${houseInfo.price}
                 {/* {houseInfo.price_history} */}
               </Card.Body>
             )}

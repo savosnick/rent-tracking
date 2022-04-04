@@ -1,13 +1,12 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   GoogleMap,
   LoadScript,
   Marker,
   InfoWindow,
 } from "@react-google-maps/api";
-import { Container, Row, Col, Card, Button, Modal } from "react-bootstrap";
+import { Card, Button, Modal } from "react-bootstrap";
 import { useState } from "react";
-import homeIcon from "../images/homeIcon.png";
 
 const API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API;
 
@@ -66,11 +65,6 @@ const MapContainer = ({
     return (max + min) / 2;
   };
 
-  const defaultCenter = {
-    lat: midLat(locations),
-    lng: midLng(locations),
-  };
-
   const latRange = (locations) => {
     let min = 1000;
     let max = -1000;
@@ -99,7 +93,12 @@ const MapContainer = ({
     return max - min;
   };
 
-  const zoomLevel = (locations) => {
+  const [center, setCenter] = useState({
+    lat: midLat(locations),
+    lng: midLng(locations),
+  });
+
+  const zoomLevel = () => {
     const zoomRange = Math.max(lngRange(locations), latRange(locations));
     if (zoomRange < 0.1) {
       return 12;
@@ -129,7 +128,7 @@ const MapContainer = ({
       return 1;
     }
   };
-
+  const [zoom, setZoom] = useState(zoomLevel());
   return (
     <>
       <Modal show={showModal} onHide={() => setShowModal(false)}>
@@ -139,6 +138,8 @@ const MapContainer = ({
             onClick={() => {
               deleteHouse(selected.name);
               setShowModal(false);
+              setSelected({});
+              setShowCanvas(false);
             }}
           >
             Yes - Delete
@@ -151,15 +152,17 @@ const MapContainer = ({
       <LoadScript googleMapsApiKey={API_KEY}>
         <GoogleMap
           mapContainerStyle={mapStyles}
-          zoom={zoomLevel(locations)}
+          zoom={zoom}
           mapTypeId="hybrid"
-          center={defaultCenter}
+          center={center}
+          disableAutoPan={true}
         >
           {locations.map((item) => {
             return (
               <Marker
                 key={item.name}
                 position={item.location}
+                disableAutoPan={true}
                 icon="http://maps.google.com/mapfiles/kml/pal3/icon56.png"
                 onClick={() => {
                   onSelect(item);
@@ -167,6 +170,7 @@ const MapContainer = ({
                   getTargetInfo(item);
                   setLoading(true);
                   setShowCanvas(true);
+                  // setCenter({});
                 }}
               />
             );
@@ -175,6 +179,7 @@ const MapContainer = ({
             <InfoWindow
               position={selected.location}
               clickable={true}
+              disableAutoPan={true}
               onCloseClick={() => {
                 setSelected({});
                 setShowCanvas(false);
@@ -193,7 +198,7 @@ const MapContainer = ({
                     <Button
                       variant="primary"
                       onClick={() => {
-                        setShowCanvas(false);
+                        // setShowCanvas(false);
                         setShowModal(true);
                         // deleteHouse(selected.name);
                       }}
