@@ -1,10 +1,12 @@
 # from crypt import methods
+from datetime import datetime
 import os
 from dotenv import load_dotenv
 import requests
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from mongo_client import mongo_client
+
 
 # from dataclasses import dataclass
 tracked_houses = mongo_client.rentals
@@ -72,6 +74,72 @@ def tracked():
         result = houses_collection.insert_one(house)
         inserted_id = result.inserted_id
         return {"inserted_id": inserted_id}
+
+
+@app.route("/tracked/<house_zpid>")
+def house_info(house_zpid):
+    querystring = {}
+    querystring["zpid"] = str(house_zpid)
+    print(querystring)
+    headers = {
+        "X-RapidAPI-Host": "zillow-com1.p.rapidapi.com",
+        "X-RapidAPI-Key": RAPID_API_KEY,
+    }
+
+    response = requests.request(
+        "GET", INDIVIDUAL_PROPERTY_URL, headers=headers, params=querystring
+    )
+
+    data = response.json()
+    house_details = {}
+    house_details["date_rented"] = "Still on market"
+    if data["homeStatus"] == "FOR_RENT":
+        house_details["home_status"] = "Still on market"
+        house_details["price"] = data["price"]
+        house_details["time_to_rent"] = "Still on market"
+        house_details["time_on_zillow"] = data["timeOnZillow"]
+    else:
+        house_details["home_status"] = "Rented out"
+        if data["priceHistory"][0]["event"] == "Listing removed":
+            house_details["price"] = data["priceHistory"][0]["price"]
+            house_details["time_on_zillow"] = "Listing removed"
+            house_details["date_rented"] = data["priceHistory"][0]["date"]
+            date_rented = datetime.strptime(data["priceHistory"][0]["date"], "%Y-%m-%d")
+            date_for_rent = datetime.strptime(
+                data["priceHistory"][1]["date"], "%Y-%m-%d"
+            )
+            house_details["time_to_rent"] = (
+                str((date_rented - date_for_rent).days) + " days"
+            )
+
+    house_details["year_built"] = data["resoFacts"]["yearBuilt"]
+    house_details["zillow_link"] = "www.zillow.com" + data["url"]
+    house_details["price_history"] = data["priceHistory"]
+    house_details["zpid"] = data["zpid"]
+    house_details["bedrooms"] = data["bedrooms"]
+    house_details["bathrooms"] = data["bathrooms"]
+    house_details["size"] = data["livingArea"]
+    house_details["address"] = (
+        data["address"]["streetAddress"]
+        + ", "
+        + data["address"]["city"]
+        + ", "
+        + data["address"]["state"]
+        + " "
+        + data["address"]["zipcode"]
+    )
+    return house_details
+
+
+@app.route("/tracked/<zpid>", methods=["DELETE"])
+def del_house(zpid):
+    if request.method == "DELETE":
+        result = houses_collection.delete_one({"_id": zpid})
+        if not result:
+            return {"error": "House was not deleted. Please try again"}, 500
+        if result.deleted_count:
+            return {"deleted_id": zpid}
+        return {"error": "Image not found"}, 404
 
 
 if __name__ == "__main__":

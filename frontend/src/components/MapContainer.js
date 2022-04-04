@@ -5,19 +5,28 @@ import {
   Marker,
   InfoWindow,
 } from "@react-google-maps/api";
-import { Container, Row, Col, Card } from "react-bootstrap";
+import { Container, Row, Col, Card, Button, Modal } from "react-bootstrap";
 import { useState } from "react";
 import homeIcon from "../images/homeIcon.png";
 
 const API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API;
 
-const MapContainer = ({ trackedHouses, setShowCanvas, setTarget }) => {
+const MapContainer = ({
+  trackedHouses,
+  setShowCanvas,
+  setTarget,
+  getTargetInfo,
+  target,
+  setLoading,
+  deleteHouse,
+}) => {
   const mapStyles = {
     height: "80vh",
     width: "100%",
   };
 
   const [selected, setSelected] = useState({});
+  const [showModal, setShowModal] = useState(false);
 
   const onSelect = (item) => {
     setSelected(item);
@@ -123,6 +132,22 @@ const MapContainer = ({ trackedHouses, setShowCanvas, setTarget }) => {
 
   return (
     <>
+      <Modal show={showModal} onHide={() => setShowModal(false)}>
+        <Modal.Body>Are you sure you want to delete this house?</Modal.Body>
+        <Modal.Footer>
+          <Button
+            onClick={() => {
+              deleteHouse(selected.name);
+              setShowModal(false);
+            }}
+          >
+            Yes - Delete
+          </Button>
+          <Button onClick={() => setShowModal(false)}>
+            No - I want to keep it tracked
+          </Button>
+        </Modal.Footer>
+      </Modal>
       <LoadScript googleMapsApiKey={API_KEY}>
         <GoogleMap
           mapContainerStyle={mapStyles}
@@ -138,8 +163,10 @@ const MapContainer = ({ trackedHouses, setShowCanvas, setTarget }) => {
                 icon="http://maps.google.com/mapfiles/kml/pal3/icon56.png"
                 onClick={() => {
                   onSelect(item);
-                  setShowCanvas(true);
                   setTarget(item);
+                  getTargetInfo(item);
+                  setLoading(true);
+                  setShowCanvas(true);
                 }}
               />
             );
@@ -148,7 +175,12 @@ const MapContainer = ({ trackedHouses, setShowCanvas, setTarget }) => {
             <InfoWindow
               position={selected.location}
               clickable={true}
-              onCloseClick={() => setSelected({})}
+              onCloseClick={() => {
+                setSelected({});
+                setShowCanvas(false);
+
+                // getTargetInfo(target);
+              }}
             >
               <div>
                 <Card>
@@ -157,6 +189,18 @@ const MapContainer = ({ trackedHouses, setShowCanvas, setTarget }) => {
                     width="125px"
                     height="125px"
                   ></Card.Img>
+                  <Card.Body>
+                    <Button
+                      variant="primary"
+                      onClick={() => {
+                        setShowCanvas(false);
+                        setShowModal(true);
+                        // deleteHouse(selected.name);
+                      }}
+                    >
+                      Stop Tracking
+                    </Button>
+                  </Card.Body>
                   {/* <Card.Footer>Zpid: {selected.name}</Card.Footer> */}
                 </Card>
               </div>

@@ -29,8 +29,8 @@ const HouseCard = ({ house, trackHouse, trackedHouses }) => {
         <Card.Title>{house.address}</Card.Title>
         <Card.Text>
           {" "}
-          <strong>Price:</strong> ${house.price} <strong>SF:</strong>{" "}
-          {house.size} <br></br>
+          <strong>Price:</strong> ${house.price} <br></br>
+          <strong>SF:</strong> {house.size} <br></br>
           <strong>BR: </strong>
           {house.bedrooms}
           <strong> BA: </strong>
