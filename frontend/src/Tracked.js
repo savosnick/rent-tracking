@@ -27,7 +27,6 @@ const Tracked = () => {
   const [target, setTarget] = useState({});
   const [houseInfo, setHouseInfo] = useState({});
   const [isLoading, setLoading] = useState(true);
-  //   const [map, setMap] = useState("");
   const getTrackedHouses = async () => {
     try {
       const res = await axios.get(`${API_URL}/tracked`);
